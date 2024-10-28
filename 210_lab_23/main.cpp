@@ -1,3 +1,5 @@
+// 210 | Lab 23 | Neil Orton
+// IDE used: Xcode
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -41,6 +43,20 @@ int main() {
                 add_goat(trip, colors, names);
                 cout << "[Goat added]" << endl;
             }
+        if (c == 2) {
+            if (trip.empty())
+                cout << "List is empty" << endl;
+            else
+            delete_goat(trip);
+        }
+        if (c== 3) {
+            if (trip.empty())
+                cout << "List is empty" << endl;
+            else {
+                cout << "List of goats" << endl;
+                display_trip(trip);
+            }
+        }
     }
     
     return 0;
@@ -85,4 +101,44 @@ void add_goat(list<Goat> &trip, string c[], string n[])
     Goat g(name, age, color);
     
     trip.push_back(g);
+}
+
+void delete_goat(list<Goat> &trip)
+{
+    int index;
+    
+    cout << "Which Goat do you wish to delete?" << endl;
+    
+    index = select_goat(trip);
+    
+    while (index > trip.size()) {
+        cout << "----------------------------" << endl;
+        cout << "Out of range" << endl;
+        cout << "Which Goat do you wish to delete?" << endl;
+        index = select_goat(trip);
+    }
+    
+    list<Goat>::iterator it;
+    
+    it = trip.begin();
+    
+    for (int i = 0; i < (index - 1); i++)
+        it++;
+
+    trip.erase(it);
+    
+    cout << "Updated list" << endl;
+    if (trip.empty())
+        cout << "[Empty]" << endl;
+    else
+        display_trip(trip);
+}
+
+void display_trip(list<Goat> trip)
+{
+    int count = 1;
+    for (Goat g : trip) {
+        cout << "[" << count << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ") " << endl;
+        count++;
+    }
 }
