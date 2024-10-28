@@ -19,6 +19,7 @@ int main_menu();
 int main() {
     bool again = 1;
     
+    // read & populate arrays for names and colors
     ifstream fin("name.txt");
     string names[SZ_NAMES];
     int i = 0;
@@ -34,8 +35,7 @@ int main() {
     list<Goat> trip;
     
     int c = 0;
-    while (again)
-    {
+    while (again) {
         c = main_menu();
         
         if (again)
@@ -57,54 +57,68 @@ int main() {
                 display_trip(trip);
             }
         }
+        if ( c == 4)
+            again = 0;
     }
+
+    trip.clear();
+    if (trip.empty())
+        cout << "List cleared" << endl;
     
+    cout << "Thanks for using the GOAT MANAGER 3001" << endl;
+    cout << "----------------------------" << endl;
     return 0;
 }
+
+int main_menu() {
+    int choice = 0;
+        cout << "----------------------------" << endl;
+        cout << "*** GOAT MANAGER 3001 ***" << endl;
+        cout << "[1] Add a goat" << endl;
+        cout << "[2] Delete a goat" << endl;
+        cout << "[3] List goats" << endl;
+        cout << "[4] Quit" << endl;
+        cout << "Choice --> ";
+        cin >> choice;
+        cout << "----------------------------" << endl;
     
-int main_menu()
-{
-        int choice = 0;
-            cout << "----------------------------" << endl;
-            cout << "*** GOAT MANAGER 3001 ***" << endl;
-            cout << "[1] Add a goat" << endl;
-            cout << "[2] Delete a goat" << endl;
-            cout << "[3] List goats" << endl;
-            cout << "[4] Quit" << endl;
-            cout << "Choice --> ";
-            cin >> choice;
-            cout << "----------------------------" << endl;
-        
-        return choice;
+    return choice;
 }
 
-void add_goat(list<Goat> &trip, string c[], string n[])
-{
+void add_goat(list<Goat> &trip, string c[], string n[]) {
     string color;
     string name;
     int age;
     int num;
     
-    
     random_device randNum;
-    uniform_int_distribution<int>range(1, 20);
+    uniform_int_distribution<int>rangeC(0, 24);
+    uniform_int_distribution<int>rangeN(0, 199);
+    uniform_int_distribution<int>rangeA(1, 20);
     
-    num = range(randNum);
+    num = rangeN(randNum);
     name = n[num];
-    
-    num = range(randNum);
+    num = rangeC(randNum);
     color = c[num];
-    
-    num = range(randNum);
+    num = rangeA(randNum);
     age = num;
     
     Goat g(name, age, color);
-    
     trip.push_back(g);
 }
 
-void delete_goat(list<Goat> &trip)
-{
+int select_goat(list<Goat> trip) {
+    int wi = 0;
+    
+    display_trip(trip);
+    cout << "----------------------------" << endl;
+    cout << "Selection: ";
+    cin >> wi;
+    
+    return wi;
+}
+
+void delete_goat(list<Goat> &trip) {
     int index;
     
     cout << "Which Goat do you wish to delete?" << endl;
@@ -134,8 +148,7 @@ void delete_goat(list<Goat> &trip)
         display_trip(trip);
 }
 
-void display_trip(list<Goat> trip)
-{
+void display_trip(list<Goat> trip) {
     int count = 1;
     for (Goat g : trip) {
         cout << "[" << count << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ") " << endl;
