@@ -19,7 +19,6 @@ int main_menu();
 int main() {
     bool again = 1;
     
-    // read & populate arrays for names and colors
     ifstream fin("name.txt");
     string names[SZ_NAMES];
     int i = 0;
